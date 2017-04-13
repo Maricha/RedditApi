@@ -33,14 +33,15 @@ postController.getAll = (req, res) => {
     db.Post.find({}).populate({
         path: '_creator',
         select: 'username -_id'
-    }).then((posts) => {
+    }).populate({ path: '_comments'})
+    .then((posts) => {
         return res.status(200).json({
             success: true,
             data: posts
         });
     }).catch((err) => {
         return res.status(500).json({
-            message: err
+            message: err.toString()
         });
     });
 };
